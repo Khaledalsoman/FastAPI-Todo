@@ -40,3 +40,9 @@ class Todos_validation(BaseModel):
 @app.get('/todo')
 def get_todo():
     return todos
+
+@app.get('/todo/{getId}')
+def get_id(getId:int):
+    for i in range(len(todos)):
+        if i==getId:
+            return todos[i]
