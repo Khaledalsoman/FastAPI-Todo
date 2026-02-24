@@ -46,3 +46,7 @@ def get_id(getId:int):
     for i in range(len(todos)):
         if i==getId:
             return todos[i]
+    
+@app.post('/todo')
+def add_task(addTask:Todos_validation):
+    todos.append(addTask)
