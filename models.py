@@ -1,10 +1,10 @@
-from database import base
-from sqlalchemy import column,Integer,Boolean,String
+from database import Base
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 
-class Todos(base):
+class Todos(Base):
     __tablename__='todos'
-    id=column(Integer,primary_key=True,index=True)
-    tite=column(String)
-    description=column(String)
-    priorty=column(Integer)
-    complete=column(Boolean,default=False)
+    id=Column(Integer,primary_key=True,index=True)
+    title=Column(String)
+    description=Column(String)
+    priority=Column(Integer)
+    complete=Column(Boolean,default=False)
