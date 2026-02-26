@@ -1,5 +1,8 @@
-from database import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+
+Base = declarative_base()
 
 class Todos(Base):
     __tablename__='todos'

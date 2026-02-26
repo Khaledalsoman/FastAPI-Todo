@@ -6,7 +6,7 @@ from database import engine,SessionLocal
 from models import Todos
 from pydantic import BaseModel
 
-app=FastAPI()
+app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -17,7 +17,7 @@ def get_db():
     finally:
         db.close()
 
-db_dependency=Annotated[Session,Depends(get_db)]
+db_dependency = Annotated[Session, Depends(get_db)]
 
 class Todo_request(BaseModel):
     title: str
@@ -36,3 +36,19 @@ def post_todo(db:db_dependency,todo_request:Todo_request):
     db.add(todo_model)
     db.commit()
 
+@app.put('/{todo_id}')
+def update_todo(db:db_dependency,todo_id:int,todo_request:Todo_request):
+    todo_model=db.query(Todos).filter(Todos.id==todo_id).first()
+
+    todo_model.title=todo_request.title
+    todo_model.description=todo_request.description
+    todo_model.priority=todo_request.priority
+    todo_model.complete=todo_request.complete
+
+    db.add(todo_model)
+    db.commit()
+@app.delete('/{todo_id}')
+def delete_todo(todo_id:int,db:db_dependency):
+    todo=db.query(Todos).filter(Todos.id==todo_id).first()
+    db.delete(todo)
+    db.commit()
